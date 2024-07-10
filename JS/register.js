@@ -26,6 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         alert('Registrado con exito');
 
-        window.location.href = '/HTMLS/Inicio.html';
+        window.location.href = '/index.html';
     });
 });
