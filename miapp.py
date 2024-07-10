@@ -61,8 +61,8 @@ class Personas:
         self.cursor.execute(f" SELECT * FROM personas WHERE email='{email}'")
         return self.cursor.fetchone()
     # -------------------ELIMINAR PERSONA-------------------------
-    def eliminar_persona (self, email):
-        self.cursor.execute(f"DELETE FROM personas WHERE email='{email}'")
+    def eliminar_persona (self, id):
+        self.cursor.execute(f"DELETE FROM personas WHERE id='{id}'")
         self.connection.commit()
         return self.cursor.rowcount > 0
     # -------------------MODIFICAR PERSONA------------------------
@@ -95,7 +95,7 @@ class Personas:
 personas = Personas(host='localhost', user='root', password='', database ='miapp')
 
 # Carpeta para guardado de imagenes
-ruta_destino= '.\Image'
+ruta_destino= '\Image'
 @app.route("/personas", methods=["GET"])
 def listar_personas():
     persona = personas.listar_personas()
@@ -128,7 +128,10 @@ def agregar_persona():
     if new_id:
         print("se intenta guardar la nueva imagen")
         imagen.save(os.path.join(ruta_destino, nombre_imagen))
-        return jsonify({"mensaje":"Producto Agregado Correctamente.", "id": new_id, "Imagen": nombre_imagen})
+        response = jsonify({'mensaje': 'Persona agregada correctamente', "id": new_id, "Imagen": nombre_imagen})
+        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:5500')
+        return response 
+    #jsonify({"mensaje":"Producto Agregado Correctamente.", "id": new_id, "Imagen": nombre_imagen})
     else:
         return jsonify({"mensaje":"Error al agregar producto" }), 500
    
@@ -168,17 +171,17 @@ def modificar_persona(email):
     else:
         return jsonify({"mensaje": "producto no encontrado"}), 403
 
-@app.route("/personas/<string:email>", methods=["DELETE"])
-def eliminar_persona(email):
+@app.route("/personas/<int:id>", methods=["DELETE"])
+def eliminar_persona(id):
     #Bucamos la informacion del producto
-    persona = personas.eliminar_persona(email)
+    persona = personas.eliminar_persona(id)
     if persona:
         ruta_imagen = os.path.join(ruta_destino, personas['imagen_url'])
         if os.path.exists(ruta_imagen):
             os.remove(ruta_imagen)
             
         #Elimiar la persona del catalogo
-        if personas.eliminar_persona(email):
+        if personas.eliminar_persona(id):
             return jsonify({"mensaje": "Persona eliminada"}), 200
         else:
             return jsonify({"mensaje": "Error al eliminar persona"}),500
