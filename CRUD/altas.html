@@ -23,7 +23,7 @@
 
 <form action="" id="form" enctype="multipart/form-data">
 
-    <label for="imagenPersona">Imagen del producto:</label>
+    <label for="imagenPersona">Imagen del usuario:</label>
         <input type="file" id="imagenPersonas" name="imagen">
     <br>
     <label for="email">Email:</label>
@@ -70,12 +70,12 @@
 
                 //Respuesta OK, muestra una alerta informando que el producto se agregó correctamente y limpia los campos del formulario para que puedan ser utilizados para un nuevo producto.
                 .then(function (data) {
-                    alert('Producto agregado correctamente.');
+                    alert('Persona agregado correctamente.');
                 })
 
                 // En caso de error, mostramos una alerta con un mensaje de error.
                 .catch(function (error) {
-                    alert('Error al agregar el producto.');
+                    alert('Error al agregar el persona.');
                 })
 
                 // Limpiar el formulario en ambos casos (éxito o error)

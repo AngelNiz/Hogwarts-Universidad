@@ -23,7 +23,7 @@
         <thead> <!--Encabezado de la tabla con columnas para código, descripción, cantidad, precio y acciones.-->
             <tr>
                 <th>Email</th>
-                <th>Usuario</th>
+                <th>Personas</th>
                 <th>Edad</th>
                 <th>Imagen</th>
             </tr>
@@ -69,15 +69,15 @@
             }
 
             // Se utiliza para eliminar un producto.
-            function eliminarProducto(id) {
+            function eliminarPersona(id) {
                 // Se muestra un diálogo de confirmación. Si el usuario confirma, se realiza una solicitud DELETE al servidor a través de fetch(URL + 'productos/${codigo}', {method: 'DELETE' }).
-                if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                if (confirm('¿Estás seguro de que quieres eliminar esta persona?')) {
                     fetch(URL + `personas/${id}`, { method: 'DELETE' })
                         .then(response => {
                             if (response.ok) {
                                 // Si es exitosa (response.ok), elimina el producto y da mensaje de ok.
                                 obtenerPersona(); // Vuelve a obtener la lista de productos para actualizar la tabla.
-                                alert('Producto eliminado correctamente.');
+                                alert('Persona eliminado correctamente.');
                             }
                         })
                         // En caso de error, mostramos una alerta con un mensaje de error.
