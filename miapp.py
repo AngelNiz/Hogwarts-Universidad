@@ -1,11 +1,11 @@
 #----------------IMPORTS------------------
 #Instalar con pip install Flask
 from flask import Flask, request, jsonify
-#Instalar con pip install -U flaslk-cors
+#Instalar con pip install -U flask-cors
 from flask_cors import CORS
+from flask_cors import cross_origin
 #Instalar con pip install mysql
 import mysql.connector
-
 import mysql.connector.errorcode
 from werkzeug.utils import secure_filename
 
@@ -14,7 +14,12 @@ import time
 
 #------------------APP-----------------------
 app =Flask(__name__)
+
 CORS(app) #Habilitas CORS para todas las rutas
+""" @app.route('/personas')
+@cross_origin(origin='http://127.0.0.1:5500')  """
+# CORS(app,resources={r"/personas/*":{"origins":"http://localhost/"}})
+#app.config['CORS_HEADERS'] = 'Content-Type'
 #--------------CREACION DE LA CLASE-----------
 class Personas:
     def __init__(self, host, user, password, database):
@@ -95,11 +100,13 @@ class Personas:
 personas = Personas(host='localhost', user='root', password='', database ='miapp')
 
 # Carpeta para guardado de imagenes
-ruta_destino= '\Image'
+ruta_destino= '../Image'
+
 @app.route("/personas", methods=["GET"])
 def listar_personas():
     persona = personas.listar_personas()
     return jsonify(persona)
+
 
 @app.route('/personas/<string:email>', methods=["GET"])
 def mostrar_persona(email):
@@ -110,13 +117,14 @@ def mostrar_persona(email):
         return "producto no encontrado", 404
     
 #Agregamos metodo POST y creamos un formulario
+
 @app.route("/personas", methods=["POST"])
 def agregar_persona():
     
     email = request.form['email']
     nombre = request.form['nombre']
     edad = request.form['edad']
-    imagen = request.files['imagen']
+    imagen = request.files['imagen_url']
     nombre_imagen = ""
     
     #Generamos el nombre de la imagen
@@ -126,15 +134,11 @@ def agregar_persona():
     
     new_id = personas.agregar_persona(email,nombre,edad,imagen)
     if new_id:
-        print("se intenta guardar la nueva imagen")
         imagen.save(os.path.join(ruta_destino, nombre_imagen))
-        response = jsonify({'mensaje': 'Persona agregada correctamente', "id": new_id, "Imagen": nombre_imagen})
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:5500')
-        return response 
-    #jsonify({"mensaje":"Producto Agregado Correctamente.", "id": new_id, "Imagen": nombre_imagen})
+        return jsonify({"mensaje":"Persona Agregada Correctamente.", "id": new_id, "Imagen": nombre_imagen})
     else:
         return jsonify({"mensaje":"Error al agregar producto" }), 500
-   
+
 @app.route("/personas/<string:email>", methods=["PUT"])# El metodo PUT lo utilizamos para modificar
 def modificar_persona(email):
     #Se recuperan los nuevos datos del formulario
