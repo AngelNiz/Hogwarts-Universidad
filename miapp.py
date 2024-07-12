@@ -16,8 +16,8 @@ import time
 app =Flask(__name__)
 
 CORS(app) #Habilitas CORS para todas las rutas
-""" @app.route('/personas')
-@cross_origin(origin='http://127.0.0.1:5500')  """
+#@app.route('/personas')
+#@cross_origin(origin='http://127.0.0.1:5500')  
 # CORS(app,resources={r"/personas/*":{"origins":"http://localhost/"}})
 #app.config['CORS_HEADERS'] = 'Content-Type'
 #--------------CREACION DE LA CLASE-----------
@@ -93,14 +93,14 @@ class Personas:
         filas = self.cursor.fetchall()
         print(filas)  
         return filas
-         
+
 #-------------------------------------------------------------------
 #                       PROGRAMA PRINCIPAL 
 # ------------------------------------------------------------------
 personas = Personas(host='localhost', user='root', password='', database ='miapp')
 
 # Carpeta para guardado de imagenes
-ruta_destino= '../Image'
+ruta_destino= '/Image'
 
 @app.route("/personas", methods=["GET"])
 def listar_personas():
@@ -155,7 +155,7 @@ def modificar_persona(email):
         nombre_imagen = f"{nombre_base}_{int(time.time())}{extencion}" # nombre_tiempo.jpg     
         
         imagen.save(os.path.join(ruta_destino, nombre_imagen))
-       
+
         persona = personas.consultar_persona(email)
         if persona:# Si la persona existe
             imagen_vieja= persona['imagen_url']

@@ -41,7 +41,7 @@
 
         //al subir al servidor deberan utilizar las siguientes rutas.
         //USUARIO debe ser remplazado
-        // URL="http://USUARIO.pythonanywere.com/"
+         //const URL = "https://angelniz.pythonanywhere.com/";
        
         //Realizamos la slicitud web para obtener la lista -->
            fetch(URL + 'personas')
@@ -65,7 +65,7 @@
                        '<td>' + persona.nombre + '</td>' +
                        '<td>' + persona.edad + '</td>' +
                        //Mostrar miniatura de la imagen
-                       '<td><scr=./Image' + persona.imagen_url + 'alt="Imagen de la persona" style="whidth 100px"></td>'
+                       '<td><scr=../Image' + persona.imagen_url + 'alt="Imagen de la persona" style="whidth 100px"></td>'
                        //Al subir al servidor, la ruta cambia. USUARIO debe ser remplazado por el nombre de usuario en phyntonanywhere
                        //'<td><scr=//http:www.phytonanywhere.com/user/USUARIO/....../Image + 'alt="Imagen de la persona" style="whidth 100px"></td>'
                        tabla_personas.appendChild(fila)
