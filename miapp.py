@@ -89,7 +89,7 @@ class Personas:
             print(f"Edad........:{persona ['edad']}")   
     # -------------------CONSULTAR PERSONAS------------------------
     def listar_personas(self):
-        self.cursor.execute(f'SELECT * FROM personas')
+        self.cursor.execute('SELECT * FROM personas')
         filas = self.cursor.fetchall()
         print(filas)  
         return filas
@@ -195,4 +195,3 @@ def eliminar_persona(id):
 if __name__=="__main__":
     app.run(debug=True)
 
-    
