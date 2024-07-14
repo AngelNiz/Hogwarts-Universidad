@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agregar Usuario</title>
-<link rel="stylesheet" href="/Styles/estilosCRUD.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Julee&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Usuario</title>
+    <link rel="stylesheet" href="/Styles/estilosCRUD.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Julee&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +20,7 @@
 
     <br>
 
-    <form id="form" enctype="multipart/form-data">
+    <form id='form' enctype="multipart/form-data">
 
         <label for="email">Email:</label>
             <input type="text"  id="email" class="box" name="email"><br>
@@ -32,42 +31,23 @@
         <label for="edad">Edad:</label>
             <input type="number" id="edad" class="box" name="edad"><br>
         
-        <label for="imagen">Imagen:</label>
-            <input type="file" id="imagen" nombre="imagen_url">
+        <label for='imagen'>Imagen:</label>
+            <input type="file" id='imagen' name="imagen">
         <br>
-        <button type="submit">Agregar Persona</button>
+        <button type='submit'>Agregar Persona</button>
     </form>
 
     <script>
 
-       /*  const whitelist = [
-
-        "http://127.0.0.1:5000/",
-        "http://127.0.0.1:5500/"
-
-        ];
-
-        const  corsOptions = {
-
-            origin : function(origin,callback){
-                if(whitelist.indexOf(origin) !== -1 ||  !origin){
-                    callback(null,true);
-                    
-              }  else {
-                callback(new Error ("NO FUNCA"));    
-                }
-            }
-        } */
-               
-        //const URL = "http://127.0.0.1:5000/";
-        const URL = "https://angelniz.pythonanywhere.com/";
+        const URL = "http://127.0.0.1:5000/";
+           
             // Capturamos el evento de envío del formulario
             document.getElementById('form').addEventListener('submit', function (event) {
                 event.preventDefault(); // Evitamos que se envie el form 
 
                 var formData = new FormData(this);
-
-                fetch(URL +'personas', { 
+                
+                fetch( URL + 'personas', {
                     method:'POST',
                     body: formData // Aquí enviamos formData. Dado que formData puede contener archivos, no se utiliza JSON.
                 })
@@ -100,7 +80,7 @@
                         document.getElementById('nombre').value = "";
                         document.getElementById('edad').value = "";
                         document.getElementById('imagen').value = "";
-                    });
+                    })
             })
     </script>
 
