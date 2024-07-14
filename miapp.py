@@ -3,7 +3,7 @@
 from flask import Flask, request, jsonify
 #Instalar con pip install -U flask-cors
 from flask_cors import CORS
-from flask_cors import cross_origin
+#from flask_cors import cross_origin
 #Instalar con pip install mysql
 import mysql.connector
 import mysql.connector.errorcode
@@ -14,19 +14,15 @@ import time
 
 #------------------APP-----------------------
 app =Flask(__name__)
+CORS(app)
 
-CORS(app) #Habilitas CORS para todas las rutas
-#@app.route('/personas')
-#@cross_origin(origin='http://127.0.0.1:5500')  
-# CORS(app,resources={r"/personas/*":{"origins":"http://localhost/"}})
-#app.config['CORS_HEADERS'] = 'Content-Type'
 #--------------CREACION DE LA CLASE-----------
 class Personas:
     def __init__(self, host, user, password, database):
         self.connection = mysql.connector.connect(
             host=host,
             user=user,
-            database =database
+            password=password
         )
         self.cursor = self.connection.cursor()
         #Seleccion/creacion de base de datos
@@ -89,24 +85,23 @@ class Personas:
             print(f"Edad........:{persona ['edad']}")   
     # -------------------CONSULTAR PERSONAS------------------------
     def listar_personas(self):
-        self.cursor.execute('SELECT * FROM personas')
+        self.cursor.execute(f'SELECT * FROM personas')
         filas = self.cursor.fetchall()
         print(filas)  
         return filas
-
+         
 #-------------------------------------------------------------------
 #                       PROGRAMA PRINCIPAL 
 # ------------------------------------------------------------------
 personas = Personas(host='localhost', user='root', password='', database ='miapp')
 
 # Carpeta para guardado de imagenes
-ruta_destino= '/Image'
+ruta_destino= '.\HTMLS\Img'
 
 @app.route("/personas", methods=["GET"])
 def listar_personas():
     persona = personas.listar_personas()
     return jsonify(persona)
-
 
 @app.route('/personas/<string:email>', methods=["GET"])
 def mostrar_persona(email):
@@ -121,11 +116,11 @@ def mostrar_persona(email):
 @app.route("/personas", methods=["POST"])
 def agregar_persona():
     
-    email = request.form['email']
-    nombre = request.form['nombre']
-    edad = request.form['edad']
-    imagen = request.files['imagen_url']
-    nombre_imagen = ""
+    email = request.form.get('email')
+    nombre = request.form.get('nombre')
+    edad = request.form.get('edad')
+    imagen = request.files.get('imagen')
+    nombre_imagen = ''
     
     #Generamos el nombre de la imagen
     nombre_imagen = secure_filename(imagen.filename) #nombre.jpg
@@ -155,7 +150,7 @@ def modificar_persona(email):
         nombre_imagen = f"{nombre_base}_{int(time.time())}{extencion}" # nombre_tiempo.jpg     
         
         imagen.save(os.path.join(ruta_destino, nombre_imagen))
-
+       
         persona = personas.consultar_persona(email)
         if persona:# Si la persona existe
             imagen_vieja= persona['imagen_url']
@@ -195,3 +190,4 @@ def eliminar_persona(id):
 if __name__=="__main__":
     app.run(debug=True)
 
+    
