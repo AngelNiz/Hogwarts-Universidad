@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 import os
 import time
-
+import flask_app as bd
 #------------------APP-----------------------
 app =Flask(__name__)
 CORS(app)
@@ -96,7 +96,7 @@ class Personas:
 personas = Personas(host='localhost', user='root', password='', database ='miapp')
 
 # Carpeta para guardado de imagenes
-ruta_destino= '.\HTMLS\Img'
+ruta_destino= './HTMLS/Img'
 
 @app.route("/personas", methods=["GET"])
 def listar_personas():
