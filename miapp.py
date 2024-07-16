@@ -89,7 +89,7 @@ class Personas:
         filas = self.cursor.fetchall()
         print(filas)  
         return filas
-         
+
 #-------------------------------------------------------------------
 #                       PROGRAMA PRINCIPAL 
 # ------------------------------------------------------------------
@@ -97,7 +97,7 @@ personas = Personas(host='localhost', user='root', password='', database ='miapp
 
 # Carpeta para guardado de imagenes
 ruta_destino= './HTMLS/Img'
-
+#ruta_destino='/home/angelniz/mysite/static/'
 @app.route("/personas", methods=["GET"])
 def listar_personas():
     persona = personas.listar_personas()
@@ -189,5 +189,3 @@ def eliminar_persona(id):
 
 if __name__=="__main__":
     app.run(debug=True)
-
-    
